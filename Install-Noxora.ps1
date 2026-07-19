@@ -1,7 +1,7 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
-    NOXORA OPTIMIZER — Remote Installer
+    NOXORA OPTIMIZER â€” Remote Installer
 .DESCRIPTION
     Clones NOXORA from GitHub and prepares it for first run.
     Safe alternative to iex+DownloadString:
@@ -11,10 +11,10 @@
       - User can inspect everything before running
 
     Usage (run as Administrator in PowerShell):
-      irm https://raw.githubusercontent.com/YOUR_USERNAME/NOXORA-Optimizer/main/Install-Noxora.ps1 | Out-File Install-Noxora.ps1; .\Install-Noxora.ps1
+      irm https://raw.githubusercontent.com/nghianghichcode/NOXORA-Optimizer/main/Install-Noxora.ps1 | Out-File Install-Noxora.ps1; .\Install-Noxora.ps1
 
     Or one-liner after trusting the source:
-      & ([scriptblock]::Create((irm https://raw.githubusercontent.com/YOUR_USERNAME/NOXORA-Optimizer/main/Install-Noxora.ps1)))
+      & ([scriptblock]::Create((irm https://raw.githubusercontent.com/nghianghichcode/NOXORA-Optimizer/main/Install-Noxora.ps1)))
 
 .NOTES
     SECURITY: This script only:
@@ -27,7 +27,7 @@
 [CmdletBinding()]
 param(
     [string]$InstallPath = "$env:USERPROFILE\NOXORA-Optimizer",
-    [string]$RepoUrl    = 'https://github.com/YOUR_USERNAME/NOXORA-Optimizer.git',  # <-- đổi thành URL repo của bạn
+    [string]$RepoUrl    = 'https://github.com/nghianghichcode/NOXORA-Optimizer.git',  # <-- Ä‘á»•i thÃ nh URL repo cá»§a báº¡n
     [switch]$NoPrompt
 )
 
@@ -43,13 +43,13 @@ function Write-OK   { param([string]$Msg) Write-Host "  [OK] $Msg"   -Foreground
 function Write-Fail { param([string]$Msg) Write-Host "  [!!] $Msg"   -ForegroundColor Red }
 function Write-Info { param([string]$Msg) Write-Host "  [i] $Msg"    -ForegroundColor DarkGray }
 
-# ── Banner ───────────────────────────────────────────────────────────────────
+# â”€â”€ Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ''
-Write-Host '  NOXORA OPTIMIZER — Installer' -ForegroundColor Cyan
+Write-Host '  NOXORA OPTIMIZER â€” Installer' -ForegroundColor Cyan
 Write-Host '  =============================' -ForegroundColor DarkGray
 Write-Host ''
 
-# ── Check Administrator ───────────────────────────────────────────────────────
+# â”€â”€ Check Administrator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
     [Security.Principal.WindowsBuiltInRole]::Administrator)
 
@@ -59,7 +59,7 @@ if (-not $isAdmin) {
 }
 Write-OK 'Running as Administrator'
 
-# ── Check Git ─────────────────────────────────────────────────────────────────
+# â”€â”€ Check Git â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 try {
     $gitVersion = & git --version 2>&1
     Write-OK "Git found: $gitVersion"
@@ -69,7 +69,7 @@ catch {
     exit 1
 }
 
-# ── Check PowerShell ──────────────────────────────────────────────────────────
+# â”€â”€ Check PowerShell â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $psVer = $PSVersionTable.PSVersion
 Write-OK "PowerShell $psVer"
 if ($psVer.Major -lt 5) {
@@ -77,7 +77,7 @@ if ($psVer.Major -lt 5) {
     exit 1
 }
 
-# ── Install Path ──────────────────────────────────────────────────────────────
+# â”€â”€ Install Path â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ''
 Write-Step "Install location: $InstallPath"
 
@@ -119,7 +119,7 @@ if (Test-Path $InstallPath) {
     }
 }
 
-# ── Clone ──────────────────────────────────────────────────────────────────────
+# â”€â”€ Clone â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ''
 Write-Step "Cloning from: $RepoUrl"
 Write-Step "          to: $InstallPath"
@@ -134,7 +134,7 @@ catch {
     exit 1
 }
 
-# ── Verify ────────────────────────────────────────────────────────────────────
+# â”€â”€ Verify â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $required = @('Noxora.ps1', 'Start-Noxora.bat', 'modules\Noxora.Core.psm1')
 $allFound = $true
 foreach ($f in $required) {
@@ -151,7 +151,7 @@ if (-not $allFound) {
 
 Write-OK 'All required files verified.'
 
-# ── Run pre-flight ────────────────────────────────────────────────────────────
+# â”€â”€ Run pre-flight â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ''
 Write-Step 'Running pre-flight environment check...'
 $setupScript = Join-Path $InstallPath 'Setup-Noxora.ps1'
@@ -159,11 +159,11 @@ if (Test-Path $setupScript) {
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $setupScript
 }
 
-# ── Done ──────────────────────────────────────────────────────────────────────
+# â”€â”€ Done â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ''
-Write-Host '  ════════════════════════════════════' -ForegroundColor Cyan
+Write-Host '  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•' -ForegroundColor Cyan
 Write-Host '  NOXORA OPTIMIZER installed successfully!' -ForegroundColor Green
-Write-Host '  ════════════════════════════════════' -ForegroundColor Cyan
+Write-Host '  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•' -ForegroundColor Cyan
 Write-Host ''
 Write-Host '  To launch:' -ForegroundColor White
 Write-Host "    cd `"$InstallPath`"" -ForegroundColor Cyan
@@ -173,3 +173,4 @@ Write-Host '  First run will ask you to CREATE your OWNER account.' -ForegroundC
 Write-Host '  Choose any username and a strong password.' -ForegroundColor DarkGray
 Write-Host '  NOXORA does NOT store plain-text passwords.' -ForegroundColor DarkGray
 Write-Host ''
+
