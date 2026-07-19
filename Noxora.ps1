@@ -151,73 +151,92 @@ if (-not $authInit.Success) {
 
 #region ── Helper: Run First-Time Owner Setup ───────────────────────────────────
 
+function New-NoxoraAutoPassword {
+    <#
+    .SYNOPSIS
+        Generates a strong password that satisfies NOXORA requirements.
+    #>
+    [CmdletBinding()]
+    [OutputType([string])]
+    param()
+
+    $upper   = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+    $lower   = 'abcdefghijkmnopqrstuvwxyz'
+    $digits  = '23456789'
+    $special = '!@#$%&*+-_?'
+    $all     = $upper + $lower + $digits + $special
+
+    $bytes = [byte[]]::new(16)
+    [System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
+
+    $passwordChars = New-Object System.Collections.Generic.List[char]
+    $passwordChars.Add($upper[[int]($bytes[0] % $upper.Length)])
+    $passwordChars.Add($lower[[int]($bytes[1] % $lower.Length)])
+    $passwordChars.Add($digits[[int]($bytes[2] % $digits.Length)])
+    $passwordChars.Add($special[[int]($bytes[3] % $special.Length)])
+
+    for ($i = 4; $i -lt $bytes.Length; $i++) {
+        $passwordChars.Add($all[[int]($bytes[$i] % $all.Length)])
+    }
+
+    for ($i = 0; $i -lt $passwordChars.Count; $i++) {
+        $swapIndex = [int]($bytes[$i] % $passwordChars.Count)
+        $temp = $passwordChars[$i]
+        $passwordChars[$i] = $passwordChars[$swapIndex]
+        $passwordChars[$swapIndex] = $temp
+    }
+
+    return -join $passwordChars
+}
+
 function Invoke-FirstRunSetup {
     <#
     .SYNOPSIS
         Guides the OWNER through account creation on first launch.
     .OUTPUTS
-        $true if setup succeeded, $false if cancelled or failed.
+        Session object if setup succeeded, $null if cancelled or failed.
     #>
     [CmdletBinding()]
-    [OutputType([bool])]
+    [OutputType([PSCustomObject])]
     param()
 
-    $maxAttempts = 3
-    $attempt     = 0
+    $username      = 'admin'
+    $plainPassword  = New-NoxoraAutoPassword
+    $securePassword = ConvertTo-SecureString $plainPassword -AsPlainText -Force
 
-    while ($attempt -lt $maxAttempts) {
-        $attempt++
+    $createResult = New-NoxoraOwner `
+        -Username        $username `
+        -Password        $securePassword `
+        -ConfirmPassword $securePassword `
+        -Confirm:$false
 
-        $setupErrorMessage = ''
-        if ($attempt -gt 1) {
-            $setupErrorMessage = "Setup failed. Attempt $attempt of $maxAttempts."
-        }
-
-        $credentials = Show-NoxoraAuthScreen `
-            -EnvInfo    $script:EnvInfo `
-            -IsFirstRun `
-            -ErrorMessage $setupErrorMessage
-
-        if ($null -eq $credentials) {
-            Write-NoxoraLog -Level 'Info' -Message 'First-run setup cancelled by user.' -Category 'Auth'
-            return $false
-        }
-
-        # Validate username
-        if ($credentials.Username -notmatch '^[a-zA-Z0-9_\-]{3,32}$') {
-            $errorMsg = 'Username must be 3-32 characters (letters, digits, _ or -).'
-            continue
-        }
-
-        $createResult = New-NoxoraOwner `
-            -Username        $credentials.Username `
-            -Password        $credentials.Password `
-            -ConfirmPassword $credentials.ConfirmPassword `
-            -Confirm:$false
-
-        if ($createResult.Success) {
-            Write-NoxoraLog -Level 'Info' -Message "OWNER account created: $($credentials.Username)" -Category 'Auth'
-
-            Clear-Host
-            Show-NoxoraBanner
-            $w = ($script:Config.ui.menuWidth)
-            Write-NoxoraBoxTop    -Title 'SETUP COMPLETE' -Width $w
-            Write-NoxoraBoxRow    -Content " OWNER account created successfully."        -ContentColor 'Green'  -Width $w
-            Write-NoxoraBoxRow    -Content " Username: $($credentials.Username)"         -ContentColor 'White'  -Width $w
-            Write-NoxoraBoxRow    -Content ''                                             -Width $w
-            Write-NoxoraBoxRow    -Content ' You can now log in with your credentials.'  -ContentColor 'DarkGray' -Width $w
-            Write-NoxoraBoxBottom -Width $w
-            Write-Host ''
-            Show-NoxoraContinuePrompt
-            return $true
-        }
-        else {
-            Write-NoxoraLog -Level 'Warn' -Message "Owner creation failed: $($createResult.Message)" -Category 'Auth'
-        }
+    if (-not $createResult.Success) {
+        Write-NoxoraLog -Level 'Warn' -Message "Owner creation failed: $($createResult.Message)" -Category 'Auth'
+        Show-NoxoraErrorMessage -Title 'Setup Failed' -Message $createResult.Message
+        return $false
     }
 
-    Show-NoxoraErrorMessage -Title 'Setup Failed' -Message "Failed after $maxAttempts attempts. Please restart NOXORA."
-    return $false
+    $loginResult = Invoke-NoxoraLogin -Username $username -Password $securePassword
+    if (-not $loginResult.Success) {
+        Write-NoxoraLog -Level 'Warn' -Message "Automatic login failed after owner creation: $($loginResult.Message)" -Category 'Auth'
+        Show-NoxoraErrorMessage -Title 'Setup Failed' -Message $loginResult.Message
+        return $null
+    }
+
+    Write-NoxoraLog -Level 'Info' -Message "OWNER account created automatically: $username" -Category 'Auth'
+
+    Clear-Host
+    Show-NoxoraBanner
+    $w = ($script:Config.ui.menuWidth)
+    Write-NoxoraBoxTop    -Title 'SETUP COMPLETE' -Width $w
+    Write-NoxoraBoxRow    -Content ' OWNER account created automatically.'       -ContentColor 'Green' -Width $w
+    Write-NoxoraBoxRow    -Content " Username: $username"                        -ContentColor 'White' -Width $w
+    Write-NoxoraBoxRow    -Content " Password: $plainPassword"                   -ContentColor 'Yellow' -Width $w
+    Write-NoxoraBoxRow    -Content ''                                              -Width $w
+    Write-NoxoraBoxRow    -Content ' Save the password now. You can change it later.' -ContentColor 'DarkGray' -Width $w
+    Write-NoxoraBoxBottom -Width $w
+    Write-Host ''
+    return $loginResult.Session
 }
 
 #endregion
@@ -237,10 +256,11 @@ function Invoke-AuthenticationLoop {
 
     # Check if OWNER account exists; if not, run first-time setup
     if (-not (Test-NoxoraOwnerExists)) {
-        $setupOk = Invoke-FirstRunSetup
-        if (-not $setupOk) {
+        $setupSession = Invoke-FirstRunSetup
+        if ($null -eq $setupSession) {
             return $null
         }
+        return $setupSession
     }
 
     $failureCount = 0
