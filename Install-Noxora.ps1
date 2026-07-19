@@ -166,8 +166,13 @@ Write-Host "    cd `"$InstallPath`"" -ForegroundColor Cyan
 Write-Host '    .\Start-Noxora.bat' -ForegroundColor Cyan
 Write-Host ''
 Write-Host '  First run will ask you to CREATE your OWNER account.' -ForegroundColor DarkGray
+Write-Host ''
+
+Write-Step 'Launching NOXORA...'
+Start-Process (Join-Path $InstallPath 'Start-Noxora.bat') -Verb RunAs -ForegroundColor DarkGray
 Write-Host '  Choose any username and a strong password.' -ForegroundColor DarkGray
 Write-Host '  NOXORA does NOT store plain-text passwords.' -ForegroundColor DarkGray
 Write-Host ''
+
 
 
