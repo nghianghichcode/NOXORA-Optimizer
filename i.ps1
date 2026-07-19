@@ -1,4 +1,4 @@
-﻿
+
 
 $InstallPath = "$env:USERPROFILE\NOXORA-Optimizer"
 $NoPrompt = $false
