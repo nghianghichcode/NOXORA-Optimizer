@@ -1,8 +1,8 @@
-@echo off
+﻿@echo off
 setlocal EnableDelayedExpansion
 
 :: ============================================================
-:: NOXORA OPTIMIZER — Batch Launcher
+:: NOXORA OPTIMIZER â€” Batch Launcher
 :: Version : 1.0.0
 :: Author  : NOXORA Project
 :: ============================================================
@@ -26,7 +26,7 @@ title NOXORA OPTIMIZER
 cd /d "%~dp0"
 
 :: --- Check Administrator privilege ---
-net session >nul 2>&1
+fltmc >nul 2>&1
 if %errorlevel% neq 0 (
     echo.
     echo  [!] NOXORA requires Administrator privileges.
@@ -89,3 +89,4 @@ if %EXIT_CODE% neq 0 (
 
 endlocal
 exit /b %EXIT_CODE%
+
