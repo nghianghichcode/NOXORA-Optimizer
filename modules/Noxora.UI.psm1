@@ -33,6 +33,17 @@ $script:UIConfig = [PSCustomObject]@{
     NormalColor        = 'White'
 }
 
+$script:BoxChars = [PSCustomObject]@{
+    TopLeft     = '┌'
+    TopRight    = '┐'
+    BottomLeft  = '└'
+    BottomRight = '┘'
+    Horizontal  = '─'
+    Vertical    = '│'
+    DivLeft     = '├'
+    DivRight    = '┤'
+}
+
 $script:StatusIcons = @{
     'Pass'           = '[PASS]'
     'Fail'           = '[FAIL]'
@@ -307,7 +318,7 @@ function Write-NoxoraBoxRow {
     if ($pad) { Write-Host $pad -NoNewline }
     Write-Host $script:BoxChars.Vertical -ForegroundColor $script:UIConfig.PrimaryColor -NoNewline
     Write-Host $padded -ForegroundColor $ContentColor -NoNewline
-    Write-Host '|' -ForegroundColor $script:UIConfig.PrimaryColor
+    Write-Host $script:BoxChars.Vertical -ForegroundColor $script:UIConfig.PrimaryColor
 }
 
 function Write-NoxoraBoxBottom {
@@ -319,7 +330,7 @@ function Write-NoxoraBoxBottom {
     param([int]$Width = 56)
 
     $pad = Get-CenterPad -ContentWidth ($Width + 2)
-    Write-NoxoraColor -Text ($script:BoxChars.DivLeft + ($script:BoxChars.Horizontal * $Width) + $script:BoxChars.DivRight) -Color $script:UIConfig.PrimaryColor -Pad $pad
+    Write-NoxoraColor -Text ($script:BoxChars.BottomLeft + ($script:BoxChars.Horizontal * $Width) + $script:BoxChars.BottomRight) -Color $script:UIConfig.PrimaryColor -Pad $pad
 }
 
 function Write-NoxoraEmptyRow {
@@ -364,13 +375,16 @@ function Show-NoxoraAuthScreen {
     Clear-Host
     Show-NoxoraBanner
 
+    $privilegeText  = if ($EnvInfo.IsAdministrator) { 'Administrator' } else { 'LIMITED - Admin Required' }
+    $privilegeColor = if ($EnvInfo.IsAdministrator) { 'Green' } else { 'Red' }
+
     $title = if ($IsFirstRun) { 'INITIAL SETUP — CREATE OWNER' } else { 'OWNER AUTHENTICATION' }
 
     Write-NoxoraBoxTop    -Title $title    -Width $w
     Write-NoxoraBoxDivider                 -Width $w
     Write-NoxoraBoxRow -Content " Device     : $($EnvInfo.ComputerName)"          -ContentColor 'White'   -Width $w
     Write-NoxoraBoxRow -Content " Windows    : $($EnvInfo.OSCaption -replace 'Microsoft ','')" -ContentColor 'White' -Width $w
-    Write-NoxoraBoxRow -Content " Privilege  : $(if ($EnvInfo.IsAdministrator) {'Administrator'} else {'LIMITED — Admin Required'})" -ContentColor (if ($EnvInfo.IsAdministrator) {'Green'} else {'Red'}) -Width $w
+    Write-NoxoraBoxRow -Content " Privilege  : $privilegeText" -ContentColor $privilegeColor -Width $w
 
     if ($IsFirstRun) {
         Write-NoxoraBoxRow -Content " Tool Status: First Run Setup"                  -ContentColor 'Yellow'  -Width $w
@@ -471,11 +485,12 @@ function Show-NoxoraMainMenu {
     $sessionValidity = Test-NoxoraSessionValid
     $expiryStr       = if ($sessionValidity.IsValid) { "$([math]::Round($sessionValidity.MinutesRemaining)) min remaining" } else { 'EXPIRED' }
     $timeStr         = Get-Date -Format 'HH:mm:ss'
+    $sessionColor    = if ($sessionValidity.NeedsWarning) { 'Yellow' } else { 'White' }
 
     Write-NoxoraBoxTop -Title 'SESSION' -Width $w
     Write-NoxoraBoxRow -Content " OWNER   : $($SessionInfo.Username)" -ContentColor 'Green'  -Width $w
     Write-NoxoraBoxRow -Content " Machine : $($EnvInfo.ComputerName)" -ContentColor 'White'  -Width $w
-    Write-NoxoraBoxRow -Content " Session : $expiryStr" -ContentColor $(if ($sessionValidity.NeedsWarning) {'Yellow'} else {'White'}) -Width $w
+    Write-NoxoraBoxRow -Content " Session : $expiryStr" -ContentColor $sessionColor -Width $w
     Write-NoxoraBoxRow -Content " Time    : $timeStr" -ContentColor 'DarkGray' -Width $w
     Write-NoxoraBoxBottom -Width $w
     Write-Host ''
@@ -623,7 +638,8 @@ function Show-NoxoraProgressTable {
     Write-NoxoraBoxRow -Content " Applied     : $($Summary.Applied)"      -ContentColor 'Green'    -Width $w
     Write-NoxoraBoxRow -Content " Skipped     : $($Summary.Skipped)"      -ContentColor 'DarkGray' -Width $w
     Write-NoxoraBoxRow -Content " Warnings    : $($Summary.Warnings)"     -ContentColor 'Yellow'   -Width $w
-    Write-NoxoraBoxRow -Content " Failed      : $($Summary.Failed)"       -ContentColor $(if ($Summary.Failed -gt 0) {'Red'} else {'DarkGray'}) -Width $w
+    $failedColor = if ($Summary.Failed -gt 0) { 'Red' } else { 'DarkGray' }
+    Write-NoxoraBoxRow -Content " Failed      : $($Summary.Failed)"       -ContentColor $failedColor -Width $w
     Write-NoxoraBoxRow -Content " Rollback ID : $($Summary.RollbackId)"   -ContentColor 'DarkGray' -Width $w
     Write-NoxoraBoxDivider -Width $w
 

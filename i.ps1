@@ -42,9 +42,7 @@ if (Test-Path $InstallPath) {
     Write-Fail "'$InstallPath' already exists."
     $choice = 'U'
     if (-not $NoPrompt) {
-        $choice = Read-Host "    [U] Update (git pull)   [R] Remove and reinstall   [C] Cancel
-
-    Choice"
+        $choice = Read-Host "    [U] Update (git pull)   [R] Remove and reinstall   [C] Cancel`n    Choice"
     }
 
     switch ($choice) {
@@ -116,10 +114,11 @@ Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host " NOXORA OPTIMIZER installed successfully! " -ForegroundColor Green
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host "  To launch:" -ForegroundColor White
-Write-Host "    cd "$InstallPath"" -ForegroundColor Cyan
+Write-Host ("    cd `"{0}`"" -f $InstallPath) -ForegroundColor Cyan
 Write-Host "    .\Start-Noxora.bat" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  First run will ask you to CREATE your OWNER account." -ForegroundColor DarkGray
 Write-Host ""
-Write-Step 'Launching NOXORA...'
-Start-Process (Join-Path $InstallPath 'Start-Noxora.bat') -Verb RunAs
+Write-Step 'Launch manually from an elevated Command Prompt:'
+Write-Host ("    cd /d `"{0}`"" -f $InstallPath) -ForegroundColor Cyan
+Write-Host '    Start-Noxora.bat' -ForegroundColor Cyan

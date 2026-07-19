@@ -168,10 +168,15 @@ function Invoke-FirstRunSetup {
     while ($attempt -lt $maxAttempts) {
         $attempt++
 
+        $setupErrorMessage = ''
+        if ($attempt -gt 1) {
+            $setupErrorMessage = "Setup failed. Attempt $attempt of $maxAttempts."
+        }
+
         $credentials = Show-NoxoraAuthScreen `
             -EnvInfo    $script:EnvInfo `
             -IsFirstRun `
-            -ErrorMessage (if ($attempt -gt 1) { "Setup failed. Attempt $attempt of $maxAttempts." } else { '' })
+            -ErrorMessage $setupErrorMessage
 
         if ($null -eq $credentials) {
             Write-NoxoraLog -Level 'Info' -Message 'First-run setup cancelled by user.' -Category 'Auth'
@@ -413,10 +418,11 @@ function Invoke-SystemDashboard {
     # Try to get basic CPU info
     try {
         $cpu = Get-CimInstance -ClassName Win32_Processor -ErrorAction Stop | Select-Object -First 1
+        $cpuLoadColor = if ($cpu.LoadPercentage -gt 80) { 'Red' } elseif ($cpu.LoadPercentage -gt 50) { 'Yellow' } else { 'Green' }
         Write-NoxoraBoxRow -Content " CPU         : $($cpu.Name.Trim())"        -ContentColor 'Cyan' -Width $w
         Write-NoxoraBoxRow -Content " Cores       : $($cpu.NumberOfCores)"      -ContentColor 'White' -Width $w
         Write-NoxoraBoxRow -Content " Threads     : $($cpu.NumberOfLogicalProcessors)" -ContentColor 'White' -Width $w
-        Write-NoxoraBoxRow -Content " CPU Load    : $($cpu.LoadPercentage)%"    -ContentColor $(if ($cpu.LoadPercentage -gt 80) {'Red'} elseif ($cpu.LoadPercentage -gt 50) {'Yellow'} else {'Green'}) -Width $w
+        Write-NoxoraBoxRow -Content " CPU Load    : $($cpu.LoadPercentage)%"    -ContentColor $cpuLoadColor -Width $w
     }
     catch {
         Write-NoxoraBoxRow -Content ' CPU         : Not available'  -ContentColor 'DarkGray' -Width $w
@@ -431,9 +437,10 @@ function Invoke-SystemDashboard {
         $free  = [math]::Round($os.FreePhysicalMemory / 1MB, 1)
         $used  = [math]::Round($total - $free, 1)
         $usePct = [math]::Round(($used / $total) * 100, 0)
+        $ramColor = if ($usePct -gt 85) { 'Red' } elseif ($usePct -gt 65) { 'Yellow' } else { 'Green' }
 
         Write-NoxoraBoxRow -Content " RAM Total   : $total GB"                    -ContentColor 'White'  -Width $w
-        Write-NoxoraBoxRow -Content " RAM Used    : $used GB ($usePct%)"          -ContentColor $(if ($usePct -gt 85) {'Red'} elseif ($usePct -gt 65) {'Yellow'} else {'Green'}) -Width $w
+        Write-NoxoraBoxRow -Content " RAM Used    : $used GB ($usePct%)"          -ContentColor $ramColor -Width $w
         Write-NoxoraBoxRow -Content " RAM Free    : $free GB"                     -ContentColor 'Green'  -Width $w
     }
     catch {
