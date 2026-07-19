@@ -24,12 +24,8 @@
     It does NOT execute any downloaded binary or encoded payload.
 #>
 
-[CmdletBinding()]
-param(
-    [string]$InstallPath = "$env:USERPROFILE\NOXORA-Optimizer",
-    [string]$RepoUrl    = 'https://github.com/nghianghichcode/NOXORA-Optimizer.git',  # <-- Ä‘á»•i thÃ nh URL repo cá»§a báº¡n
-    [switch]$NoPrompt
-)
+$InstallPath = "$env:USERPROFILE\NOXORA-Optimizer"
+$RepoUrl = 'https://github.com/nghianghichcode/NOXORA-Optimizer.git'
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -173,4 +169,5 @@ Write-Host '  First run will ask you to CREATE your OWNER account.' -ForegroundC
 Write-Host '  Choose any username and a strong password.' -ForegroundColor DarkGray
 Write-Host '  NOXORA does NOT store plain-text passwords.' -ForegroundColor DarkGray
 Write-Host ''
+
 
