@@ -1,0 +1,78 @@
+{
+  "_comment": "NOXORA — Startup entry classification rules.",
+  "_updated": "2026-07-19",
+  "startupRules": [
+    {
+      "pattern": "SecurityHealth|MsMpEng|WindowsDefender|WinDefend",
+      "category": "Security",
+      "disableAllowed": false,
+      "reason": "Windows Defender — must remain enabled"
+    },
+    {
+      "pattern": "vgk|vgc|VGC|EasyAntiCheat|BEService|GameGuard",
+      "category": "AntiCheat",
+      "disableAllowed": false,
+      "reason": "Anti-cheat — disabling causes game ban"
+    },
+    {
+      "pattern": "Realtek|Conexant|Synaptics|AHTop|RTHDCPL|RtHDVCpl|IAStorIcon|IntelDriver",
+      "category": "OEMHardware",
+      "disableAllowed": false,
+      "reason": "OEM hardware utility — verify before disabling"
+    },
+    {
+      "pattern": "nvcontainer|NVDisplay|NVIDIA Share|nvidia-smi|nvvsvc",
+      "category": "Driver",
+      "disableAllowed": false,
+      "reason": "NVIDIA driver component"
+    },
+    {
+      "pattern": "Steam|SteamService|steamwebhelper",
+      "category": "Launcher",
+      "disableAllowed": true,
+      "requireConfirmation": true,
+      "reason": "Steam — disable startup if not needed at boot"
+    },
+    {
+      "pattern": "EpicGamesLauncher|EpicWebHelper",
+      "category": "Launcher",
+      "disableAllowed": true,
+      "requireConfirmation": true,
+      "reason": "Epic Games Launcher — disable startup if not needed at boot"
+    },
+    {
+      "pattern": "OneDrive|OneDriveStandaloneUpdater",
+      "category": "CloudSync",
+      "disableAllowed": true,
+      "requireConfirmation": true,
+      "reason": "OneDrive — disable startup to delay cloud sync until needed"
+    },
+    {
+      "pattern": "Discord|DiscordPTB|DiscordCanary",
+      "category": "Communication",
+      "disableAllowed": true,
+      "requireConfirmation": true,
+      "reason": "Discord — disable startup if not needed at boot"
+    },
+    {
+      "pattern": "Teams|MicrosoftTeams",
+      "category": "Communication",
+      "disableAllowed": true,
+      "requireConfirmation": true,
+      "reason": "Microsoft Teams — high startup cost"
+    },
+    {
+      "pattern": "Spotify",
+      "category": "Media",
+      "disableAllowed": true,
+      "requireConfirmation": true,
+      "reason": "Spotify — disable startup if not needed at boot"
+    }
+  ],
+  "defaultUnknownCategory": "Unknown",
+  "unknownPolicy": {
+    "disableAllowed": false,
+    "requireManualReview": true,
+    "displayMessage": "UNCLASSIFIED — Manual review required before disabling"
+  }
+}

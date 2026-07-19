@@ -1,0 +1,95 @@
+{
+  "_comment": "NOXORA OPTIMIZER — Main Settings File",
+  "version": "1.0.0",
+  "language": "en",
+  "theme": {
+    "primaryColor": "Cyan",
+    "successColor": "Green",
+    "warningColor": "Yellow",
+    "errorColor": "Red",
+    "accentColor": "Magenta",
+    "dimColor": "DarkGray"
+  },
+  "ui": {
+    "menuWidth": 56,
+    "autoCenter": true,
+    "simpleMode": false,
+    "simpleModeThresholdWidth": 80,
+    "showBanner": true,
+    "showSystemInfo": true,
+    "animationsEnabled": false
+  },
+  "auth": {
+    "maxLoginAttempts": 5,
+    "lockoutDurationBase": 30,
+    "lockoutMultiplier": 2,
+    "sessionTimeoutMinutes": 60,
+    "sessionWarningMinutes": 5,
+    "auditLoginSuccess": true,
+    "auditLoginFailed": true,
+    "auditLogout": true,
+    "pbkdf2Iterations": 100000,
+    "pbkdf2HashAlgorithm": "SHA256",
+    "saltLength": 32
+  },
+  "logging": {
+    "logLevel": "Info",
+    "maxLogFileSizeMB": 10,
+    "maxLogFiles": 10,
+    "logDirectory": "data\\logs",
+    "auditDirectory": "data\\logs\\audit",
+    "includeTimestamp": true,
+    "includeLevel": true
+  },
+  "backup": {
+    "backupDirectory": "data\\backups",
+    "sessionDirectory": "data\\sessions",
+    "maxBackupAgeDays": 30,
+    "compressBackups": false,
+    "verifyAfterBackup": true
+  },
+  "reporting": {
+    "reportDirectory": "data\\reports",
+    "defaultFormat": "txt",
+    "includeBaseline": true,
+    "includeSystemInfo": true
+  },
+  "safety": {
+    "requireConfirmationForAllActions": true,
+    "requireBackupBeforeApply": true,
+    "dryRunDefault": true,
+    "allowRegistryChanges": true,
+    "allowServiceChanges": true,
+    "allowScheduledTaskChanges": true,
+    "allowAppXRemoval": true,
+    "allowStartupChanges": true,
+    "neverDisableDefender": true,
+    "neverDisableFirewall": true,
+    "neverDisableWindowsUpdate": true,
+    "neverModifySystem32": true,
+    "neverModifyDriverStore": true,
+    "neverModifyWinSxS": true
+  },
+  "hardware": {
+    "autoDetectCPU": true,
+    "autoDetectGPU": true,
+    "allowManualOverride": true,
+    "thermalReadEnabled": true,
+    "performanceCounterEnabled": true
+  },
+  "gameBoost": {
+    "profileDirectory": "data\\sessions\\game-profiles",
+    "baselineDurationSeconds": 15,
+    "monitorIntervalSeconds": 5,
+    "autoRestoreOnGameClose": true,
+    "maxProcessPriority": "High",
+    "defaultProcessPriority": "AboveNormal"
+  },
+  "network": {
+    "latencyTestEnabled": false,
+    "latencyTestEndpoint": "",
+    "packetLossTestEnabled": false,
+    "allowDNSChange": true,
+    "requireDNSConfirmation": true
+  }
+}

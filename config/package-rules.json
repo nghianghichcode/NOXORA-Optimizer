@@ -1,0 +1,60 @@
+{
+  "_comment": "NOXORA — AppX / UWP package classification rules for the System Debloater.",
+  "_updated": "2026-07-19",
+  "protectedPackages": [
+    { "pattern": "Microsoft.WindowsStore",            "reason": "Microsoft Store — required for app delivery",                 "category": "Core" },
+    { "pattern": "Microsoft.DesktopAppInstaller",     "reason": "App Installer / winget — required for app management",       "category": "Core" },
+    { "pattern": "Microsoft.WebView2",                "reason": "WebView2 Runtime — many apps depend on this",               "category": "Framework" },
+    { "pattern": "Microsoft.WebMediaExtensions",      "reason": "Web Media Extensions — media playback dependency",          "category": "Framework" },
+    { "pattern": "Microsoft.WindowsSoundRecorder",    "reason": "Used by some accessibility tools",                          "category": "Core" },
+    { "pattern": "Microsoft.SecHealthUI",             "reason": "Windows Security UI — must not be removed",                "category": "Security" },
+    { "pattern": "Microsoft.WindowsCalculator",       "reason": "System calculator — keep by default",                      "category": "System" },
+    { "pattern": "Microsoft.WindowsNotepad",          "reason": "Notepad — lightweight text editor",                        "category": "System" },
+    { "pattern": "Microsoft.Paint",                   "reason": "Paint — kept for basic image editing",                     "category": "System" },
+    { "pattern": "Microsoft.ScreenSketch",            "reason": "Snipping Tool — frequently used",                          "category": "System" },
+    { "pattern": "Microsoft.Windows.Photos",          "reason": "Photos app — default image viewer",                       "category": "System",  "conditionallyProtected": true },
+    { "pattern": "Microsoft.GamingApp",               "reason": "Xbox Game Bar / Gaming Services — required for Game Pass", "category": "Gaming",  "conditionallyProtected": true },
+    { "pattern": "Microsoft.XboxGameOverlay",         "reason": "Xbox Game Overlay",                                       "category": "Gaming",  "conditionallyProtected": true },
+    { "pattern": "Microsoft.XboxGamingOverlay",       "reason": "Xbox Gaming Overlay",                                     "category": "Gaming",  "conditionallyProtected": true },
+    { "pattern": "Microsoft.XboxSpeechToTextOverlay", "reason": "Xbox speech component",                                   "category": "Gaming",  "conditionallyProtected": true },
+    { "pattern": "Microsoft.VCLibs",                  "reason": "Visual C++ Runtime Libraries — framework dependency",      "category": "Framework" },
+    { "pattern": "Microsoft.NET.Native",              "reason": ".NET Native Runtime — framework dependency",              "category": "Framework" },
+    { "pattern": "Microsoft.UI.Xaml",                 "reason": "WinUI XAML framework — UI dependency",                   "category": "Framework" }
+  ],
+  "optionalPackages": [
+    { "name": "Microsoft.Clipchamp",                  "displayName": "Clipchamp",          "category": "OptionalMedia",       "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.BingNews",                   "displayName": "Microsoft News",     "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.BingWeather",                "displayName": "Weather",            "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.GetHelp",                    "displayName": "Get Help",           "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.Getstarted",                 "displayName": "Tips",               "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.MicrosoftSolitaireCollection","displayName": "Microsoft Solitaire","category": "ConsumerGame",       "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.WindowsMaps",                "displayName": "Windows Maps",       "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.YourPhone",                  "displayName": "Phone Link",         "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional if no phone integration", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.WindowsFeedbackHub",         "displayName": "Feedback Hub",       "category": "Telemetry",          "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.ZuneMusic",                  "displayName": "Media Player",       "category": "OptionalMedia",      "risk": "Low",   "recommendation": "Keep if using built-in media player", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.ZuneVideo",                  "displayName": "Movies & TV",        "category": "OptionalMedia",      "risk": "Low",   "recommendation": "Optional if not used", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.People",                     "displayName": "People",             "category": "OptionalConsumer",    "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" },
+    { "name": "Microsoft.MixedReality.Portal",        "displayName": "Mixed Reality Portal","category": "OptionalHardware",  "risk": "Low",   "recommendation": "Remove if no VR headset", "restoreMethod": "Microsoft Store" },
+    { "name": "MicrosoftTeams",                       "displayName": "Microsoft Teams",    "category": "Communication",      "risk": "Low",   "recommendation": "Optional if not used", "restoreMethod": "Microsoft Store" },
+    { "name": "Clipchamp.Clipchamp",                  "displayName": "Clipchamp",          "category": "OptionalMedia",      "risk": "Low",   "recommendation": "Optional removal", "restoreMethod": "Microsoft Store" }
+  ],
+  "presets": {
+    "GamingPC": {
+      "description": "Minimal consumer apps for a dedicated gaming machine",
+      "suggestedRemovals": [
+        "Microsoft.Clipchamp", "Microsoft.BingNews", "Microsoft.BingWeather",
+        "Microsoft.GetHelp", "Microsoft.Getstarted", "Microsoft.MicrosoftSolitaireCollection",
+        "Microsoft.WindowsMaps", "Microsoft.WindowsFeedbackHub", "Microsoft.People",
+        "Microsoft.MixedReality.Portal", "MicrosoftTeams"
+      ]
+    },
+    "MinimalConsumer": {
+      "description": "Remove most optional Microsoft consumer apps",
+      "suggestedRemovals": [
+        "Microsoft.Clipchamp", "Microsoft.BingNews", "Microsoft.BingWeather",
+        "Microsoft.GetHelp", "Microsoft.Getstarted", "Microsoft.MicrosoftSolitaireCollection",
+        "Microsoft.WindowsMaps", "Microsoft.WindowsFeedbackHub", "Microsoft.People"
+      ]
+    }
+  }
+}

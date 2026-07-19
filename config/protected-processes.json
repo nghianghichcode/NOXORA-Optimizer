@@ -1,0 +1,163 @@
+{
+  "_comment": "NOXORA — Processes that must NEVER be terminated under any circumstances.",
+  "_updated": "2026-07-19",
+  "protectedProcesses": [
+    {
+      "name": "System",
+      "reason": "Windows kernel process",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "Registry",
+      "reason": "Windows Registry process",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "smss.exe",
+      "reason": "Session Manager Subsystem",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "csrss.exe",
+      "reason": "Client/Server Runtime Subsystem",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "wininit.exe",
+      "reason": "Windows Initialization Process",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "winlogon.exe",
+      "reason": "Windows Logon Application",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "services.exe",
+      "reason": "Service Control Manager",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "lsass.exe",
+      "reason": "Local Security Authority Subsystem",
+      "category": "Security"
+    },
+    {
+      "name": "lsaiso.exe",
+      "reason": "LSA Isolated — Credential Guard",
+      "category": "Security"
+    },
+    {
+      "name": "dwm.exe",
+      "reason": "Desktop Window Manager",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "audiodg.exe",
+      "reason": "Windows Audio Device Graph",
+      "category": "Audio"
+    },
+    {
+      "name": "svchost.exe",
+      "reason": "Service Host — hosts critical Windows services",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "MsMpEng.exe",
+      "reason": "Microsoft Defender Antimalware Service",
+      "category": "Security"
+    },
+    {
+      "name": "NisSrv.exe",
+      "reason": "Microsoft Network Inspection Service",
+      "category": "Security"
+    },
+    {
+      "name": "SecurityHealthSystray.exe",
+      "reason": "Windows Security systray",
+      "category": "Security"
+    },
+    {
+      "name": "SecurityHealthService.exe",
+      "reason": "Windows Security Health Service",
+      "category": "Security"
+    },
+    {
+      "name": "mpssvc.exe",
+      "reason": "Windows Defender Firewall",
+      "category": "Security"
+    },
+    {
+      "name": "WmiPrvSE.exe",
+      "reason": "WMI Provider Host",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "fontdrvhost.exe",
+      "reason": "Font Driver Host",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "explorer.exe",
+      "reason": "Windows Explorer Shell",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "taskhostw.exe",
+      "reason": "Task Host Window",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "RuntimeBroker.exe",
+      "reason": "Runtime Broker — manages permissions for UWP apps",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "ShellExperienceHost.exe",
+      "reason": "Windows Shell Experience Host",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "StartMenuExperienceHost.exe",
+      "reason": "Start Menu Experience Host",
+      "category": "WindowsCore"
+    },
+    {
+      "name": "SearchIndexer.exe",
+      "reason": "Windows Search Indexer",
+      "category": "WindowsCore",
+      "note": "Can be analyzed but not forcibly killed"
+    },
+    {
+      "name": "spoolsv.exe",
+      "reason": "Print Spooler",
+      "category": "Driver",
+      "note": "Only safe to stop if printer is not in use"
+    },
+    {
+      "name": "vgk.exe",
+      "reason": "Valorant Vanguard kernel anti-cheat",
+      "category": "AntiCheat"
+    },
+    {
+      "name": "vgtray.exe",
+      "reason": "Vanguard tray",
+      "category": "AntiCheat"
+    },
+    {
+      "name": "EasyAntiCheat.exe",
+      "reason": "EasyAntiCheat",
+      "category": "AntiCheat"
+    },
+    {
+      "name": "BEService.exe",
+      "reason": "BattlEye anti-cheat service",
+      "category": "AntiCheat"
+    },
+    {
+      "name": "GameGuard.des",
+      "reason": "nProtect GameGuard",
+      "category": "AntiCheat"
+    }
+  ]
+}

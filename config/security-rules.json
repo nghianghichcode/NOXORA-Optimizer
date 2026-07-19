@@ -1,0 +1,70 @@
+{
+  "_comment": "NOXORA — Security scan rules for the Security Center analyzer.",
+  "_updated": "2026-07-19",
+  "_philosophy": "NOXORA is a Security Analyzer, not an antivirus. Multiple indicators required before flagging.",
+  "suspiciousExecutableLocations": [
+    { "path": "%APPDATA%",           "risk": "High",   "note": "Legitimate apps rarely run from AppData\\Roaming" },
+    { "path": "%LOCALAPPDATA%\\Temp","risk": "Critical","note": "Executables in Temp are highly suspicious" },
+    { "path": "%TEMP%",              "risk": "Critical","note": "Executables in Temp are highly suspicious" },
+    { "path": "%PUBLIC%",            "risk": "High",   "note": "Unexpected executables in Public folder" },
+    { "path": "%USERPROFILE%\\Downloads", "risk": "Medium", "note": "Downloaded executables in persistence keys" }
+  ],
+  "suspiciousScheduledTaskIndicators": [
+    { "indicator": "PowerShell -EncodedCommand",  "confidence": "High",   "reason": "Encoded PowerShell used to evade detection" },
+    { "indicator": "cmd /c powershell",           "confidence": "High",   "reason": "CMD spawning PowerShell indirection" },
+    { "indicator": "Invoke-Expression",            "confidence": "High",   "reason": "Dynamic code execution" },
+    { "indicator": "iex(",                         "confidence": "High",   "reason": "PowerShell IEX alias for Invoke-Expression" },
+    { "indicator": "DownloadString",               "confidence": "High",   "reason": "Downloading and executing code" },
+    { "indicator": "WebClient",                    "confidence": "Medium", "reason": "Network download in scheduled task" },
+    { "indicator": "certutil -urlcache",           "confidence": "High",   "reason": "certutil used for download LOLBin" },
+    { "indicator": "bitsadmin /transfer",          "confidence": "Medium", "reason": "BITS used for file download" },
+    { "indicator": "regsvr32 /s /n /u /i:http",   "confidence": "High",   "reason": "regsvr32 used for remote code LOLBin" },
+    { "indicator": "mshta http",                   "confidence": "High",   "reason": "mshta used for remote script LOLBin" },
+    { "indicator": "wscript http",                 "confidence": "High",   "reason": "wscript used for remote code" }
+  ],
+  "suspiciousRegistryPersistenceKeys": [
+    "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+    "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+    "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+    "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+    "HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+    "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows",
+    "HKLM:\\SYSTEM\\CurrentControlSet\\Services",
+    "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options",
+    "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",
+    "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
+  ],
+  "suspiciousNetworkIndicators": [
+    { "port": 4444,  "confidence": "High",   "reason": "Default Metasploit handler port" },
+    { "port": 1337,  "confidence": "Medium", "reason": "Common RAT/hack tool port" },
+    { "port": 5555,  "confidence": "Medium", "reason": "ADB / common malware port" },
+    { "port": 31337, "confidence": "High",   "reason": "Classic backdoor port (Back Orifice)" },
+    { "port": 6666,  "confidence": "Medium", "reason": "Common malware C2 port" },
+    { "port": 6667,  "confidence": "Medium", "reason": "IRC/botnet communication port" },
+    { "port": 6697,  "confidence": "Medium", "reason": "IRC/botnet communication port (TLS)" },
+    { "port": 8545,  "confidence": "Medium", "reason": "Ethereum RPC — possible crypto miner" },
+    { "port": 3333,  "confidence": "Medium", "reason": "Common crypto mining pool port" },
+    { "port": 14444, "confidence": "Medium", "reason": "Common crypto mining pool port" },
+    { "port": 45560, "confidence": "Low",    "reason": "Known in some miner configurations" }
+  ],
+  "knownMinerProcessPatterns": [
+    "xmrig", "xmr-stak", "cryptonight", "monero", "nicehash",
+    "ethminer", "t-rex", "lolminer", "nbminer", "phoenixminer",
+    "bzminer", "trex", "gminer", "wildrig", "nanominer"
+  ],
+  "hostsFileSuspiciousPatterns": [
+    { "pattern": "windowsupdate",   "confidence": "High",   "reason": "Blocking Windows Update via hosts — common malware tactic" },
+    { "pattern": "microsoft.com",   "confidence": "High",   "reason": "Blocking Microsoft — common malware/crack tactic" },
+    { "pattern": "defender",        "confidence": "High",   "reason": "Blocking Defender updates" },
+    { "pattern": "virustotal",      "confidence": "Medium", "reason": "Blocking security research sites" },
+    { "pattern": "malwarebytes",    "confidence": "Medium", "reason": "Blocking security software updates" }
+  ],
+  "falsePositiveGuidance": [
+    "A single indicator is insufficient to conclude malware.",
+    "Unsigned executables are NOT automatically malicious.",
+    "Unknown scheduled tasks may be legitimate OEM or software tasks.",
+    "High CPU/GPU usage alone is NOT evidence of a miner.",
+    "Always cross-reference multiple indicators before reporting a finding.",
+    "Provide false-positive warnings for every finding."
+  ]
+}

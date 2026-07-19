@@ -1,0 +1,29 @@
+# NOXORA OPTIMIZER — .gitignore
+# Do NOT commit runtime data, credentials, or logs
+
+# ── Sensitive data (NEVER commit) ──────────────────────
+data/auth/
+data/logs/
+data/sessions/
+data/backups/
+data/baselines/
+data/reports/
+data/quarantine/
+
+# ── OS artifacts ────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ── Editor artifacts ────────────────────────────────────
+.vscode/
+*.suo
+*.user
+.vs/
+
+# ── PowerShell ──────────────────────────────────────────
+*.psproj.user
+
+# ── Test output ─────────────────────────────────────────
+testResults/
+*.xml

@@ -1,0 +1,146 @@
+{
+  "_comment": "NOXORA — Process classification rules for the Process Optimizer.",
+  "_updated": "2026-07-19",
+  "classificationRules": [
+    {
+      "pattern": "^(System|Registry|smss|csrss|wininit|winlogon|services|lsass|lsaiso|dwm|fontdrvhost|wermgr)$",
+      "category": "WindowsCore",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Fundamental Windows components — modification causes system instability"
+    },
+    {
+      "pattern": "^(MsMpEng|NisSrv|SecurityHealthService|SecurityHealthSystray|MpCmdRun|mpssvc)$",
+      "category": "Security",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Windows Defender and Firewall — must not be modified"
+    },
+    {
+      "pattern": "^(audiodg|AudioEndpointBuilder|AudioSrv)$",
+      "category": "Audio",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Audio subsystem — killing causes audio loss"
+    },
+    {
+      "pattern": "^(vgk|vgc|VGC|vgtray|EasyAntiCheat|BEService|GameGuard|PnkBstrA|PnkBstrB|EQU8|mhyprot|mhyprot2|ACE-Base)$",
+      "category": "AntiCheat",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Anti-cheat processes — modifying causes game ban"
+    },
+    {
+      "pattern": "^(nvcontainer|nvdisplay|nvvsvc|NVDisplay|NvTelemetryContainer|NVSvc)$",
+      "category": "Driver",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "NVIDIA GPU driver services"
+    },
+    {
+      "pattern": "^(amdow|AMDRSServ|CCC|RadeonSoftware|AmdAudioService|amdxc64)$",
+      "category": "Driver",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "AMD GPU driver services"
+    },
+    {
+      "pattern": "^(igfxEM|igfxHK|igfxTray|IntelCpHDCPSvc|igfxCUIService|DP_AudioFilter)$",
+      "category": "Driver",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Intel GPU/graphics driver services"
+    },
+    {
+      "pattern": "^(Steam|SteamService|steamwebhelper|GameOverlayUI|steam_osx)$",
+      "category": "Launcher",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Steam launcher — required for Steam games and DRM"
+    },
+    {
+      "pattern": "^(RiotClient|RiotClientServices|LeagueClient|LeagueClientUx)$",
+      "category": "Launcher",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Riot Games launcher — required for Valorant/LoL"
+    },
+    {
+      "pattern": "^(EpicGamesLauncher|EpicWebHelper|UnrealCEFSubProcess)$",
+      "category": "Launcher",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Epic Games Launcher — required for Epic games"
+    },
+    {
+      "pattern": "^(GalaxyClient|GOG Galaxy|GalaxyClientService)$",
+      "category": "Launcher",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "GOG Galaxy launcher"
+    },
+    {
+      "pattern": "^(explorer|ShellExperienceHost|StartMenuExperienceHost|SearchHost|RuntimeBroker|taskhostw|sihost|ctfmon)$",
+      "category": "WindowsCore",
+      "killAllowed": false,
+      "priorityChangeAllowed": false,
+      "affinityChangeAllowed": false,
+      "reason": "Windows Shell components"
+    },
+    {
+      "pattern": "^(OneDrive|OneDriveStandaloneUpdater)$",
+      "category": "CloudSync",
+      "killAllowed": true,
+      "priorityChangeAllowed": true,
+      "affinityChangeAllowed": false,
+      "reason": "Microsoft OneDrive — optional cloud sync",
+      "sessionKillOnly": true
+    },
+    {
+      "pattern": "^(GoogleDriveFS|googledrivesync|Dropbox|DropboxUpdate|box_helper)$",
+      "category": "CloudSync",
+      "killAllowed": true,
+      "priorityChangeAllowed": true,
+      "affinityChangeAllowed": false,
+      "reason": "Third-party cloud sync — optional",
+      "sessionKillOnly": true
+    },
+    {
+      "pattern": "^(chrome|firefox|msedge|brave|opera|iexplore|Arc|vivaldi|waterfox)$",
+      "category": "Browser",
+      "killAllowed": true,
+      "priorityChangeAllowed": true,
+      "affinityChangeAllowed": false,
+      "reason": "Web browser",
+      "requireConfirmation": true
+    },
+    {
+      "pattern": "^(Discord|DiscordPTB|DiscordCanary|Slack|Teams|zoom|webex|skype)$",
+      "category": "Communication",
+      "killAllowed": true,
+      "priorityChangeAllowed": true,
+      "affinityChangeAllowed": false,
+      "reason": "Communication application",
+      "requireConfirmation": true
+    }
+  ],
+  "defaultUnknownCategory": "Unknown",
+  "unknownPolicy": {
+    "killAllowed": false,
+    "priorityChangeAllowed": false,
+    "affinityChangeAllowed": false,
+    "displayMessage": "PROTECTED — MANUAL REVIEW REQUIRED",
+    "reason": "Unrecognized process — requires investigation before any action"
+  }
+}

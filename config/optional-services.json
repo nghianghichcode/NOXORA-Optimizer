@@ -1,0 +1,147 @@
+{
+  "_comment": "NOXORA — Services safe to set Manual (not Disabled) after dependency check.",
+  "_updated": "2026-07-19",
+  "_note": "All entries here are SUGGESTIONS only. NOXORA will check dependencies before any change.",
+  "optionalServices": [
+    {
+      "name": "Fax",
+      "displayName": "Fax",
+      "safeStartMode": "Disabled",
+      "condition": "No fax device detected",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name Fax -StartupType Automatic",
+      "category": "Optional"
+    },
+    {
+      "name": "WSearch",
+      "displayName": "Windows Search",
+      "safeStartMode": "Manual",
+      "condition": "User does not rely on Windows Search",
+      "risk": "Medium",
+      "restoreMethod": "Set-Service -Name WSearch -StartupType Automatic",
+      "category": "Optional",
+      "note": "Disabling reduces RAM/disk but breaks Start Menu search"
+    },
+    {
+      "name": "SysMain",
+      "displayName": "SysMain (Superfetch)",
+      "safeStartMode": "Manual",
+      "condition": "NVMe SSD detected AND sufficient RAM",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name SysMain -StartupType Automatic",
+      "category": "Optional",
+      "note": "Less benefit on fast NVMe systems; keep on HDD"
+    },
+    {
+      "name": "DiagTrack",
+      "displayName": "Connected User Experiences and Telemetry",
+      "safeStartMode": "Manual",
+      "condition": "User accepts reduced diagnostic reporting",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name DiagTrack -StartupType Automatic",
+      "category": "Telemetry"
+    },
+    {
+      "name": "dmwappushservice",
+      "displayName": "Device Management Wireless Application Protocol Push message Routing Service",
+      "safeStartMode": "Manual",
+      "condition": "No mobile device management enrollment",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name dmwappushservice -StartupType Manual",
+      "category": "Telemetry"
+    },
+    {
+      "name": "MapsBroker",
+      "displayName": "Downloaded Maps Manager",
+      "safeStartMode": "Manual",
+      "condition": "Maps application not in use",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name MapsBroker -StartupType Automatic",
+      "category": "Optional"
+    },
+    {
+      "name": "lfsvc",
+      "displayName": "Geolocation Service",
+      "safeStartMode": "Manual",
+      "condition": "No location-aware apps in use",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name lfsvc -StartupType Automatic",
+      "category": "Optional"
+    },
+    {
+      "name": "RetailDemo",
+      "displayName": "Retail Demo Service",
+      "safeStartMode": "Disabled",
+      "condition": "Non-retail machine",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name RetailDemo -StartupType Manual",
+      "category": "Optional"
+    },
+    {
+      "name": "WbioSrvc",
+      "displayName": "Windows Biometric Service",
+      "safeStartMode": "Manual",
+      "condition": "No biometric device detected",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name WbioSrvc -StartupType Automatic",
+      "category": "Hardware"
+    },
+    {
+      "name": "TabletInputService",
+      "displayName": "Touch Keyboard and Handwriting Panel Service",
+      "safeStartMode": "Manual",
+      "condition": "Non-touch desktop",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name TabletInputService -StartupType Automatic",
+      "category": "Hardware"
+    },
+    {
+      "name": "XblAuthManager",
+      "displayName": "Xbox Live Auth Manager",
+      "safeStartMode": "Manual",
+      "condition": "No Xbox/Game Pass usage",
+      "risk": "Medium",
+      "restoreMethod": "Set-Service -Name XblAuthManager -StartupType Manual",
+      "category": "Gaming",
+      "note": "Required for Xbox Game Pass and some Xbox features"
+    },
+    {
+      "name": "XblGameSave",
+      "displayName": "Xbox Live Game Save",
+      "safeStartMode": "Manual",
+      "condition": "No Xbox/Game Pass usage",
+      "risk": "Medium",
+      "restoreMethod": "Set-Service -Name XblGameSave -StartupType Manual",
+      "category": "Gaming",
+      "note": "Required for cloud game saves on Xbox/Game Pass"
+    },
+    {
+      "name": "XboxNetApiSvc",
+      "displayName": "Xbox Live Networking Service",
+      "safeStartMode": "Manual",
+      "condition": "No Xbox/Game Pass usage",
+      "risk": "Medium",
+      "restoreMethod": "Set-Service -Name XboxNetApiSvc -StartupType Manual",
+      "category": "Gaming"
+    },
+    {
+      "name": "WerSvc",
+      "displayName": "Windows Error Reporting Service",
+      "safeStartMode": "Manual",
+      "condition": "User does not need crash reporting",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name WerSvc -StartupType Manual",
+      "category": "Diagnostics"
+    },
+    {
+      "name": "DoSvc",
+      "displayName": "Delivery Optimization",
+      "safeStartMode": "Manual",
+      "condition": "Peer-to-peer update sharing not wanted",
+      "risk": "Low",
+      "restoreMethod": "Set-Service -Name DoSvc -StartupType Automatic",
+      "category": "Update",
+      "note": "Does not prevent Windows Updates — only disables P2P sharing"
+    }
+  ]
+}
