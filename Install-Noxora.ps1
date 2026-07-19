@@ -1,5 +1,4 @@
-﻿#Requires -Version 5.1
-<#
+﻿<#
 .SYNOPSIS
     NOXORA OPTIMIZER â€” Remote Installer
 .DESCRIPTION
@@ -25,6 +24,7 @@
 #>
 
 $InstallPath = "$env:USERPROFILE\NOXORA-Optimizer"
+$NoPrompt = $false
 $RepoUrl = 'https://github.com/nghianghichcode/NOXORA-Optimizer.git'
 
 Set-StrictMode -Version Latest
@@ -173,6 +173,7 @@ Start-Process (Join-Path $InstallPath 'Start-Noxora.bat') -Verb RunAs -Foregroun
 Write-Host '  Choose any username and a strong password.' -ForegroundColor DarkGray
 Write-Host '  NOXORA does NOT store plain-text passwords.' -ForegroundColor DarkGray
 Write-Host ''
+
 
 
 
