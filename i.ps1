@@ -1,33 +1,10 @@
-﻿<#
-.SYNOPSIS
-    NOXORA OPTIMIZER Ã¢â‚¬â€ Remote Installer
-.DESCRIPTION
-    Clones NOXORA from GitHub and prepares it for first run.
-    Safe alternative to iex+DownloadString:
-      - Uses git clone (verifiable, not arbitrary code execution)
-      - No code downloaded and immediately executed
-      - No hidden payload
-      - User can inspect everything before running
-
-    Usage (run as Administrator in PowerShell):
-      irm https://raw.githubusercontent.com/nghianghichcode/NOXORA-Optimizer/main/Install-Noxora.ps1 | Out-File Install-Noxora.ps1; .\Install-Noxora.ps1
-
-    Or one-liner after trusting the source:
-      & ([scriptblock]::Create((irm https://raw.githubusercontent.com/nghianghichcode/NOXORA-Optimizer/main/Install-Noxora.ps1)))
-
-.NOTES
-    SECURITY: This script only:
-      1. Checks prerequisites
-      2. Runs: git clone <repo> <target>
-      3. Runs Setup-Noxora.ps1 (read-only check)
-    It does NOT execute any downloaded binary or encoded payload.
-#>
+﻿
 
 $InstallPath = "$env:USERPROFILE\NOXORA-Optimizer"
 $NoPrompt = $false
 $RepoUrl = 'https://github.com/nghianghichcode/NOXORA-Optimizer.git'
 
-Set-StrictMode -Version Latest
+
 $ErrorActionPreference = 'Stop'
 
 function Write-Step {
@@ -41,7 +18,7 @@ function Write-Info { param([string]$Msg) Write-Host "  [i] $Msg"    -Foreground
 
 # Ã¢â€â‚¬Ã¢â€â‚¬ Banner Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 Write-Host ''
-Write-Host '  NOXORA OPTIMIZER Ã¢â‚¬â€ Installer' -ForegroundColor Cyan
+Write-Host 'NOXORA OPTIMIZER Ã¢â‚¬â€ Installer' -ForegroundColor Cyan
 Write-Host '  =============================' -ForegroundColor DarkGray
 Write-Host ''
 
@@ -158,7 +135,7 @@ if (Test-Path $setupScript) {
 # Ã¢â€â‚¬Ã¢â€â‚¬ Done Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 Write-Host ''
 Write-Host '  Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â' -ForegroundColor Cyan
-Write-Host '  NOXORA OPTIMIZER installed successfully!' -ForegroundColor Green
+Write-Host 'NOXORA OPTIMIZER installed successfully!' -ForegroundColor Green
 Write-Host '  Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â' -ForegroundColor Cyan
 Write-Host ''
 Write-Host '  To launch:' -ForegroundColor White
@@ -173,6 +150,7 @@ Start-Process (Join-Path $InstallPath 'Start-Noxora.bat') -Verb RunAs -Foregroun
 Write-Host '  Choose any username and a strong password.' -ForegroundColor DarkGray
 Write-Host '  NOXORA does NOT store plain-text passwords.' -ForegroundColor DarkGray
 Write-Host ''
+
 
 
 
