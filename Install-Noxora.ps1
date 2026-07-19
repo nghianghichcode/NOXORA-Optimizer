@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     NOXORA OPTIMIZER â€” Remote Installer
 .DESCRIPTION
